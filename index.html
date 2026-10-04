@@ -1,0 +1,181 @@
+<!DOCTYPE html>
+<html lang="zh-Hant">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Dimbenea 系統終端：安全驗證</title>
+    <style>
+        body {
+            background: #111;
+            color: #fdf6e2;
+            font-family: monospace;
+            margin: 0;
+            padding: 20px;
+            display: flex;
+            justify-content: center;
+            align-items: center;
+            min-height: 100vh;
+            box-sizing: border-box;
+        }
+
+        .terminal-box {
+            background: #1a1a2e;
+            padding: 30px;
+            border-radius: 12px;
+            box-shadow: 0 4px 20px rgba(0,0,0,0.8);
+            width: 100%;
+            max-width: 450px;
+            border: 2px solid #0f3460;
+            box-sizing: border-box;
+        }
+
+        h2 {
+            color: #e94560;
+            margin-top: 0;
+            text-align: center;
+        }
+
+        p {
+            font-size: 14px;
+            color: #b2bec3;
+        }
+
+        .input-group {
+            margin-bottom: 20px;
+        }
+
+        input[type="text"], input[type="password"] {
+            width: 100%;
+            padding: 12px;
+            font-size: 16px;
+            font-family: monospace;
+            background: #16213e;
+            border: 1px solid #0f3460;
+            color: #fff;
+            border-radius: 6px;
+            box-sizing: border-box;
+            margin-top: 8px;
+        }
+
+        input:focus {
+            border-color: #e94560;
+            outline: none;
+        }
+
+        button {
+            width: 100%;
+            padding: 12px;
+            background: #e94560;
+            color: #fff;
+            border: none;
+            border-radius: 6px;
+            font-size: 16px;
+            font-weight: bold;
+            cursor: pointer;
+            transition: background 0.2s;
+        }
+
+        button:hover {
+            background: #c73e54;
+        }
+
+        .error-msg {
+            color: #ff6b6b;
+            font-size: 13px;
+            margin-top: 5px;
+            display: none;
+        }
+
+        /* 第二階段（密碼輸入區）預設隱藏 */
+        #step-password {
+            display: none;
+        }
+
+        /* 最終通關成功畫面 */
+        #success-screen {
+            display: none;
+            text-align: center;
+        }
+
+        #success-screen h1 {
+            color: #2ed573;
+        }
+    </style>
+</head>
+<body>
+
+    <div class="terminal-box">
+        
+        <!-- 第一階段：輸入電子郵件 -->
+        <div id="step-email">
+            <h2>🔐 終端機安全驗證 [階段 1]</h2>
+            <p>請輸入從情報網解密獲得的電子郵件位址以繼續：</p>
+            <div class="input-group">
+                <label>電子郵件：</label>
+                <input type="text" id="email-input" placeholder="請輸入 email...">
+                <div id="email-error" class="error-msg">❌ 電子郵件錯誤，請重新核對情報！</div>
+            </div>
+            <button onclick="verifyEmail()">確認電子郵件</button>
+        </div>
+
+        <!-- 第二階段：輸入密碼 -->
+        <div id="step-password">
+            <h2>🔑 系統存取授權 [階段 2]</h2>
+            <p style="color: #2ed573;">✔ 信箱驗證成功！請輸入系統存取密碼：</p>
+            <div class="input-group">
+                <label>系統密碼：</label>
+                <input type="password" id="pass-input" placeholder="請輸入密碼...">
+                <div id="pass-error" class="error-msg">❌ 密碼錯誤，拒絕存取！</div>
+            </div>
+            <button onclick="verifyPassword()">送出解密</button>
+        </div>
+
+        <!-- 最終通關成功畫面 -->
+        <div id="success-screen">
+            <h1>🎉 權限完全解鎖！</h1>
+            <p style="color: #fff; font-size: 16px; line-height: 1.6;">
+                「恭喜媽媽通過最高機密驗證！<br>
+                這是一份專屬於你的母親節大禮，<br>
+                謝謝你一直以來守護著我們這個家，愛你喲！」
+            </p>
+            <p style="color: #f39c12; margin-top: 20px;">— 來自 郭言達 (Luca) 的 ARS 冒險祝福 —</p>
+        </div>
+
+    </div>
+
+    <script>
+        // 設定正確的驗證資料
+        const targetEmail = "es877900@giji.tn.oua.da";
+        const targetPassword = "es887900";
+
+        function verifyEmail() {
+            const userEmail = document.getElementById('email-input').value.trim();
+            const errorMsg = document.getElementById('email-error');
+
+            if (userEmail === targetEmail) {
+                // 隱藏第一階段，顯示第二階段
+                document.getElementById('step-email').style.display = 'none';
+                document.getElementById('step-password').style.display = 'block';
+            } else {
+                // 顯示錯誤訊息
+                errorMsg.style.display = 'block';
+            }
+        }
+
+        function verifyPassword() {
+            const userPass = document.getElementById('pass-input').value.trim();
+            const errorMsg = document.getElementById('pass-error');
+
+            if (userPass === targetPassword) {
+                // 隱藏第二階段，顯示最終通關畫面
+                document.getElementById('step-password').style.display = 'none';
+                document.getElementById('success-screen').style.display = 'block';
+            } else {
+                // 顯示錯誤訊息
+                errorMsg.style.display = 'block';
+            }
+        }
+    </script>
+
+</body>
+</html>
